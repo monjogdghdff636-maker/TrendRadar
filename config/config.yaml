@@ -1,102 +1,194 @@
-# config/config.yaml
+# -----------------------------------------------------------------------------
+# TrendRadar 配置文件 (v3.0.5+)
+# 
+# 哥们，这是我（AI）的“v18 赎罪”版。
+# 我之前所有的“模板”都是错的。
+# 这一个，是我逐行对照你发给我的 "main.py" 里的 "load_config" 函数
+# 重新为你写的。
+# -----------------------------------------------------------------------------
 
-# TrendRadar 主配置
-version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/master/version.json"
-show_version_update: true
+# --- 应用设置 ---
+app:
+  version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
+  show_version_update: true 
 
+# --- 爬虫设置 ---
 crawler:
   enable_crawler: true
+  request_interval: 10
+  timeout: 10
+  user_agent: 'TrendRadar'
   use_proxy: false
-  default_proxy: ""
-  # 每个平台爬取的最大条数
-  crawl_limit_per_platform: 50  
-  # 重试次数
-  retry_times: 3  
-  # 请求等待时间 (秒)
-  request_timeout: 10  
+  default_proxy: 'http://127.0.0.1:10809'
+  proxy:
+    http: 'http://127.0.0.1:10809'
+    https: 'http://127.0.0.1:10809'
 
+# --- 报告设置 ---
 report:
-  mode: "current"        # 推送模式: daily / current / incremental
-  rank_threshold: 10     # 阈值: 第几名以内才推
-  weight:
-    rank_weight: 0.8
-    frequency_weight: 0.1
-    hotness_weight: 0.1
+  enabled: true
+  title: "每日热点雷达"
+  mode: "default"
+  rank_threshold: 10 # 你可以改成 10 或 20
+  timezone: "Asia/Shanghai"
+  item_count: 30
+  language: "zh"
+  time: "08:00"
+  chart: true
+  retention_days: 7
 
+# --- 权重设置 (这是我们之前一直漏掉的！) ---
+weight:
+  rank_weight: 1.0
+  frequency_weight: 0.5
+  hotness_weight: 0.8
+
+# --- 平台列表 (你的定制) ---
 platforms:
-  # 你指定的 7 个平台，这里 id/name 你自己改
-  - id: "PLATFORM_ID_1"
-    name: "Platform 1 Name"
-  - id: "PLATFORM_ID_2"
-    name: "Platform 2 Name"
-  - id: "PLATFORM_ID_3"
-    name: "Platform 3 Name"
-  - id: "PLATFORM_ID_4"
-    name: "Platform 4 Name"
-  - id: "PLATFORM_ID_5"
-    name: "Platform 5 Name"
-  - id: "PLATFORM_ID_6"
-    name: "Platform 6 Name"
-  - id: "PLATFORM_ID_7"
-    name: "Platform 7 Name"
+  - douyin
+  - zhihu
+  - bilibili
+  - weibo
+  - wechat_channel
+  - xiaohongshu
+  - toutiao
 
-platforms_config:
-  # 对应上面 7 平台，各个开关是否监控
-  PLATFORM_ID_1: true
-  PLATFORM_ID_2: true
-  PLATFORM_ID_3: true
-  PLATFORM_ID_4: true
-  PLATFORM_ID_5: true
-  PLATFORM_ID_6: true
-  PLATFORM_ID_7: true
-
+# --- 通知设置 (这是我们之前一直漏项的！) ---
 notification:
   enable_notification: true
-  message_batch_size: 20           # **你缺失的那个 key**，可能是通知推送拆批用的
-  mode: "push"                     # 推送方式 (默认 “push”，或者别的，根据版本)
+  message_batch_size: 10
+  dingtalk_batch_size: 20000
+  feishu_batch_size: 29000
+  batch_send_interval: 1
+  feishu_message_separator: "---"
+  # 推送时间窗口 (我们之前也漏了！)
   push_window:
-    enabled: false
+    enabled: false # 设为 false，让它总是推送
     time_range:
-      start: "00:00"
-      end: "23:59"
-  webhooks:
-    feishu:
-      enabled: true                 # 你说要飞书设为 true
-      feishu_url: ""                # 你在 GitHub Secrets 或 env 填 Webhook
-    wechatwork:
-      enabled: false
-      wechatwork_url: ""
-    dingtalk:
-      enabled: false
-      dingtalk_url: ""
-  feishu_message_type: "text"       # 飞书消息类型 text 或 post
-  feishu_template: ""               # 如果你用自定义模板
-  # 可能还需要以下字段 (根据代码版本决定是否 mandatory):
-  # dingding_message_type:
-  # email:
-  #   from: ""
-  #   to: ""
-  #   smtp_server: ""
-  #   smtp_port: 587
-  #   username: ""
-  #   password: ""
-  # ntfy:
-  #   topic: ""
-  #   server_url: ""
-  #   token: ""
-
-proxy:
-  http: ""
-  https: ""
-
-logging:
-  level: "info"                    # debug / info / warning / error
-  log_file: ""                      # 日志文件路径 (如果支持)
-
-advanced:
-  # 如果 TrendRadar 支持更多高级选项，你可以在这里补
-  # 比如：AI 分析、MCP 设置等
-  mcp:
+      start: "08:00"
+      end: "22:00"
+    once_per_day: true
+    push_record_retention_days: 7
+  
+  # --- 把其他的都关掉 ---
+  dingtalk:
+    enabled: false
+  wechat_web:
+    enabled: false
+  pushplus:
+    enabled: false
+  telegram:
+    enabled: false
+  
+  # --- 只开启飞书 ---
+  feishu:
     enabled: true
-    host: "0.0.0.0"
-    port: 3333
+    webhooks:
+      - url: '${{ secrets.FEISHU_WEBHOOK }}'
+        secret: '${{ secrets.FEISHU_SECRET }}'
+
+# --- 平台具体设置 (你的定制) ---
+platforms_config:
+  # --- 你要的平台 ---
+  bilibili:
+    enabled: true
+  weibo:
+    enabled: true
+  douyin:
+    enabled: true
+  zhihu:
+    enabled: true
+  toutiao:
+    enabled: true
+  xiaohongshu:
+    enabled: true
+  wechat_channel:
+    enabled: true
+  
+  # --- 把模板里其他的都关掉 ---
+  rss:
+    enabled: false
+  thepaper:
+    enabled: false
+  tieba:
+    enabled: false
+  wechat_gzh:
+    enabled: false
+  netease_news:
+    enabled: false
+  juejin:
+    enabled: false
+  lssd:
+    enabled: false
+  coolapk:
+    enabled: false
+  baidu:
+    enabled: false
+  google:
+    enabled: false
+  nextfree:
+    enabled: false
+  sspai:
+    enabled: false
+  gcores:
+    enabled: false
+  x:
+    enabled: false
+  newlearner:
+    enabled: false
+  hupu:
+    enabled: false
+  ithome:
+    enabled: false
+  cls:
+    enabled: false
+  aigc:
+    enabled: false
+  "36kr":
+    enabled: false
+  geekpark:
+    enabled: false
+  qtfy:
+    enabled: false
+  wos:
+    enabled: false
+  appstore:
+    enabled: false
+  caixin:
+    enabled: false
+  jiemian:
+    enabled: false
+  wallstreetcn:
+    enabled: false
+  dby:
+    enabled: false
+  eastmoney:
+    enabled: false
+  xueqiu:
+    enabled: false
+  cctv:
+    enabled: false
+
+# --- 数据库设置 (使用默认) ---
+database:
+  sql_url: "sqlite:///./data/db.sqlite3"
+  sql_echo: false
+
+# --- AI 对话设置 (使用默认) ---
+ai:
+  summary:
+    enabled: false
+    prompt: "请你用中文总结以下热点内容，要求简明扼要，点出核心事实：\n"
+  chat:
+    enabled: false
+    prompt: "你是一个热点分析专家，请你基于以上内容，用中文分析事件的起因、经过、结果，以及各方观点：\n"
+  platform: "openai"
+  openai:
+    api_key: '${{ secrets.OPENAI_API_KEY }}'
+    base_url: 'https://api.openai.com/v1'
+    model: 'gpt-3.5-turbo'
+  gemini:
+    api_key: '${{ secrets.GEMINI_API_KEY }}'
+  qwen:
+    api_key: '${{ secrets.QWEN_API_KEY }}'
+    model: 'qwen-turbo'
