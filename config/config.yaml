@@ -1,23 +1,22 @@
 # --- 应用设置 ---
 app:
-  # F 修复 Bug #1
   version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
-  # 修复 Bug #2
   show_version_update: true 
 
-# --- 爬虫设置 (修复 Bug #3) ---
+# --- 爬虫设置 ---
 crawler:
   request_interval: 10
   timeout: 10
   user_agent: 'TrendRadar'
 
-# --- 报告设置 (修复 Bug #4) ---
-# 这就是它这次想要的“新指令包”
+# --- 报告设置 (这就是我们第4、5次失败的地方) ---
 report:
   enabled: true
-  title: "每日热点雷达" # 随便给它起个名字
+  title: "每日热点雷达"
+  mode: "default"  # 这是你第5次失败时缺少的 'mode'
+  timezone: "Asia/Shanghai" # 我顺便把时区也加上了
 
-# --- 平台列表 (修复结构错误) ---
+# --- 平台列表 ---
 platforms:
   - douyin
   - zhihu
@@ -27,28 +26,107 @@ platforms:
   - xiaohongshu
   - toutiao
 
-# --- 通知设置 ---
+# --- 通知设置 (这次我把其他的都关了) ---
 notify:
-  # 开启飞书通知
+  dingtalk:
+    enabled: false
+  wechat_web:
+    enabled: false
+  pushplus:
+    enabled: false
+  telegram:
+    enabled: false
+  
+  # 只开启飞书
   feishu:
     enabled: true
     webhooks:
       - url: '${{ secrets.FEISHU_WEBHOOK }}'
         secret: '${{ secrets.FEISHU_SECRET }}'
 
-# --- 平台具体设置 ---
+# --- 平台具体设置 (这是必须的) ---
+# 我们只启用你关心的平台
 platforms_config:
-  douyin:
-    enabled: true
-  zhihu:
-    enabled: true
   bilibili:
     enabled: true
   weibo:
     enabled: true
-  wechat_channel:
-    enabled: true # 视频号
-  xiaohongshu:
-    enabled: true # 小红书
+  douyin:
+    enabled: true
+  zhihu:
+    enabled: true
   toutiao:
-    enabled: true # 今日头条
+    enabled: true
+  xiaohongshu:
+    enabled: true
+  wechat_channel:
+    enabled: true
+  
+  # 把模板里其他的都关掉
+  rss:
+    enabled: false
+  thepaper:
+    enabled: false
+  tieba:
+    enabled: false
+  wechat_gzh:
+    enabled: false
+  netease_news:
+    enabled: false
+  juejin:
+    enabled: false
+  lssd:
+    enabled: false
+  coolapk:
+    enabled: false
+  baidu:
+    enabled: false
+  google:
+    enabled: false
+  nextfree:
+    enabled: false
+  sspai:
+    enabled: false
+  gcores:
+    enabled: false
+  x:
+    enabled: false
+  newlearner:
+    enabled: false
+  hupu:
+    enabled: false
+  ithome:
+    enabled: false
+  cls:
+    enabled: false
+  aigc:
+    enabled: false
+  "36kr":
+    enabled: false
+  geekpark:
+    enabled: false
+  qtfy:
+    enabled: false
+  wos:
+    enabled: false
+  appstore:
+    enabled: false
+  caixin:
+    enabled: false
+  jiemian:
+    enabled: false
+  wallstreetcn:
+    enabled: false
+  dby:
+    enabled: false
+  eastmoney:
+    enabled: false
+  xueqiu:
+    enabled: false
+  cctv:
+    enabled: false
+
+# --- 数据库设置 (使用默认) ---
+database:
+  sql_url: "sqlite:///./data/db.sqlite3"
+  sql_echo: false
