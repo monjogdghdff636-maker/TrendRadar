@@ -47,7 +47,7 @@ platforms:
   - toutiao
 
 # --- 通知设置 (你的定制) ---
-notify:
+notification:
   dingtalk:
     enabled: false
   wechat_web:
