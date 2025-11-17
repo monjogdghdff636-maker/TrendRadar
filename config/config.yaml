@@ -1,5 +1,8 @@
 # --- 应用设置 ---
 app:
+  # 这一行是新加的“修复补丁”，它现在需要这个
+  version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
+  
   # 告诉机器人，我们要监控这7个平台
   platforms:
     - douyin
@@ -8,7 +11,7 @@ app:
     - weibo
     - wechat_channel
     - xiaohongshu
-    - toutiao  # 新增：今日头条
+    - toutiao
 
 # --- 通知设置 ---
 notify:
@@ -16,7 +19,7 @@ notify:
   feishu:
     enabled: true
     webhooks:
-      # 这两行是“魔法”，告诉机器人去“秘密地点”拿你的飞书钥匙
+      # 你的飞书钥匙（它们还在“秘密地点”，不用动）
       - url: '${{ secrets.FEISHU_WEBHOOK }}'
         secret: '${{ secrets.FEISHU_SECRET }}'
 
@@ -35,4 +38,4 @@ platforms_config:
   xiaohongshu:
     enabled: true # 小红书
   toutiao:
-    enabled: true # 新增：今日头条
+    enabled: true # 今日头条
