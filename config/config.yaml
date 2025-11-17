@@ -9,12 +9,20 @@ crawler:
   timeout: 10
   user_agent: 'TrendRadar'
 
-# --- 报告设置 (这就是我们第4、5次失败的地方) ---
+# --- 报告设置 (修复 Bug #4, #5, #6) ---
+# 这次我把官方模板里的 report 部分全复制过来了
 report:
   enabled: true
   title: "每日热点雷达"
-  mode: "default"  # 这是你第5次失败时缺少的 'mode'
-  timezone: "Asia/Shanghai" # 我顺便把时区也加上了
+  mode: "default"
+  # 排名阈值 (修复 Bug #6)
+  rank_threshold: 0.0
+  # 报告时区
+  timezone: "Asia/Shanghai"
+  # 报告的最大条目数
+  item_count: 30
+  # 报告语言
+  language: "zh"
 
 # --- 平台列表 ---
 platforms:
@@ -26,7 +34,7 @@ platforms:
   - xiaohongshu
   - toutiao
 
-# --- 通知设置 (这次我把其他的都关了) ---
+# --- 通知设置 (只开启飞书) ---
 notify:
   dingtalk:
     enabled: false
@@ -44,8 +52,7 @@ notify:
       - url: '${{ secrets.FEISHU_WEBHOOK }}'
         secret: '${{ secrets.FEISHU_SECRET }}'
 
-# --- 平台具体设置 (这是必须的) ---
-# 我们只启用你关心的平台
+# --- 平台具体设置 (只启用你关心的) ---
 platforms_config:
   bilibili:
     enabled: true
@@ -62,7 +69,7 @@ platforms_config:
   wechat_channel:
     enabled: true
   
-  # 把模板里其他的都关掉
+  # --- 把模板里其他的都关掉 ---
   rss:
     enabled: false
   thepaper:
