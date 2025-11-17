@@ -22,6 +22,8 @@ crawler:
   user_agent: 'TrendRadar'
   # 是否使用代理 (修复 Bug #7)
   use_proxy: false
+  # 默认代理 (修复 Bug #8)
+  default_proxy: 'http://127.0.0.1:10809'
   # 代理设置
   proxy:
     http: 'http://127.0.0.1:10809'
@@ -44,6 +46,10 @@ report:
   language: "zh"
   # 报告时间（仅在 daily, weekly, monthly 模式下生效）
   time: "08:00"
+  # 报告图表
+  chart: true
+  # 报告保留天数
+  retention_days: 7
 
 # --- 平台列表 (你的定制) ---
 platforms:
@@ -163,3 +169,28 @@ platforms_config:
 database:
   sql_url: "sqlite:///./data/db.sqlite3"
   sql_echo: false
+
+# --- AI 对话设置 (使用默认) ---
+ai:
+  # AI 摘要
+  summary:
+    enabled: false
+    # AI 摘要的提示词
+    prompt: "请你用中文总结以下热点内容，要求简明扼要，点出核心事实：\n"
+  # AI 对话分析
+  chat:
+    enabled: false
+    # AI 对话分析的提示词
+    prompt: "你是一个热点分析专家，请你基于以上内容，用中文分析事件的起因、经过、结果，以及各方观点：\n"
+  # AI 平台
+  platform: "openai" # or "gemini" or "qwen"
+  # AI 平台设置
+  openai:
+    api_key: '${{ secrets.OPENAI_API_KEY }}'
+    base_url: 'https://api.openai.com/v1'
+    model: 'gpt-3.5-turbo'
+  gemini:
+    api_key: '${{ secrets.GEMINI_API_KEY }}'
+  qwen:
+    api_key: '${{ secrets.QWEN_API_KEY }}'
+    model: 'qwen-turbo'
