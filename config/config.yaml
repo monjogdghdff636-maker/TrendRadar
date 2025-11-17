@@ -169,7 +169,7 @@ ai:
     model: 'gpt-3.5-turbo'
   gemini:
     api_key: '${{ secrets.GEMINI_API_KEY }}'
-S'
+# (我把第 172 行那个 'S' 删掉了！)
   qwen:
     api_key: '${{ secrets.QWEN_API_KEY }}'
     model: 'qwen-turbo'
