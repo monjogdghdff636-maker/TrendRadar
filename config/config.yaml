@@ -1,22 +1,23 @@
 # --- 应用设置 ---
 app:
-  # 修复 Bug #1
+  # F 修复 Bug #1
   version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
   # 修复 Bug #2
   show_version_update: true 
 
 # --- 爬虫设置 (修复 Bug #3) ---
-# 这就是它这次想要的“新指令包”
 crawler:
-  # 每次请求之间的间隔时间（秒），我们设一个安全值 10
   request_interval: 10
-  # 爬虫超时时间（秒），默认 10
   timeout: 10
-  # 爬虫UA，默认 'TrendRadar'
   user_agent: 'TrendRadar'
 
+# --- 报告设置 (修复 Bug #4) ---
+# 这就是它这次想要的“新指令包”
+report:
+  enabled: true
+  title: "每日热点雷达" # 随便给它起个名字
+
 # --- 平台列表 (修复结构错误) ---
-# 注意：这一段现在和 app 平级，不在 app 里面了！
 platforms:
   - douyin
   - zhihu
