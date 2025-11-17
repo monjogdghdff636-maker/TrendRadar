@@ -1,30 +1,51 @@
+# -----------------------------------------------------------------------------
+# TrendRadar 配置文件
+# 
+# 这是基于官方 config.yaml.template (v3.0.0+) 
+# 为你（monjopjggfjdff636-maker）定制的版本
+# -----------------------------------------------------------------------------
+
 # --- 应用设置 ---
 app:
+  # 版本检查 (修复 Bug #1)
   version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
+  # 显示版本更新 (修复 Bug #2)
   show_version_update: true 
 
 # --- 爬虫设置 ---
 crawler:
+  # 请求间隔时间（秒），默认 10
   request_interval: 10
+  # 爬虫超时时间（秒），默认 10
   timeout: 10
+  # 爬虫UA，默认 'TrendRadar'
   user_agent: 'TrendRadar'
+  # 是否使用代理 (修复 Bug #7)
+  use_proxy: false
+  # 代理设置
+  proxy:
+    http: 'http://127.0.0.1:10809'
+    https: 'http://127.0.0.1:10809'
 
-# --- 报告设置 (修复 Bug #4, #5, #6) ---
-# 这次我把官方模板里的 report 部分全复制过来了
+# --- 报告设置 ---
 report:
   enabled: true
+  # 报告标题
   title: "每日热点雷达"
+  # 报告模式：default, daily, weekly, monthly (修复 Bug #5)
   mode: "default"
-  # 排名阈值 (修复 Bug #6)
+  # 报告排名阈值 (修复 Bug #6)
   rank_threshold: 0.0
   # 报告时区
   timezone: "Asia/Shanghai"
-  # 报告的最大条目数
+  # 报告最大条目数
   item_count: 30
   # 报告语言
   language: "zh"
+  # 报告时间（仅在 daily, weekly, monthly 模式下生效）
+  time: "08:00"
 
-# --- 平台列表 ---
+# --- 平台列表 (你的定制) ---
 platforms:
   - douyin
   - zhihu
@@ -34,26 +55,31 @@ platforms:
   - xiaohongshu
   - toutiao
 
-# --- 通知设置 (只开启飞书) ---
+# --- 通知设置 (你的定制) ---
 notify:
+  # 关闭钉钉
   dingtalk:
     enabled: false
+  # 关闭企业微信
   wechat_web:
     enabled: false
+  # 关闭 PushPlus
   pushplus:
     enabled: false
+  # 关闭 Telegram
   telegram:
     enabled: false
   
-  # 只开启飞书
+  # --- 只开启飞书 ---
   feishu:
     enabled: true
     webhooks:
       - url: '${{ secrets.FEISHU_WEBHOOK }}'
         secret: '${{ secrets.FEISHU_SECRET }}'
 
-# --- 平台具体设置 (只启用你关心的) ---
+# --- 平台具体设置 (你的定制) ---
 platforms_config:
+  # --- 你要的平台 ---
   bilibili:
     enabled: true
   weibo:
