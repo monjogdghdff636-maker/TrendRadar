@@ -7,24 +7,18 @@
 
 # --- 应用设置 ---
 app:
-  # 版本检查 (修复 Bug #1)
   version_check_url: 'https://raw.githubusercontent.com/sansan0/TrendRadar/main/version'
-  # 显示版本更新 (修复 Bug #2)
   show_version_update: true 
 
 # --- 爬虫设置 ---
 crawler:
-  # 请求间隔时间（秒），默认 10
+  # 修复 Bug #11 (我就设为 true 了)
+  enable_crawler: true
   request_interval: 10
-  # 爬虫超时时间（秒），默认 10
   timeout: 10
-  # 爬虫UA，默认 'TrendRadar'
   user_agent: 'TrendRadar'
-  # 是否使用代理 (修复 Bug #7)
   use_proxy: false
-  # 默认代理 (修复 Bug #8)
   default_proxy: 'http://127.0.0.1:10809'
-  # 代理设置
   proxy:
     http: 'http://127.0.0.1:10809'
     https: 'http://127.0.0.1:10809'
@@ -32,23 +26,14 @@ crawler:
 # --- 报告设置 ---
 report:
   enabled: true
-  # 报告标题
   title: "每日热点雷达"
-  # 报告模式：default, daily, weekly, monthly (修复 Bug #5)
   mode: "default"
-  # 报告排名阈值 (修复 Bug #6)
   rank_threshold: 0.0
-  # 报告时区
   timezone: "Asia/Shanghai"
-  # 报告最大条目数
   item_count: 30
-  # 报告语言
   language: "zh"
-  # 报告时间（仅在 daily, weekly, monthly 模式下生效）
   time: "08:00"
-  # 报告图表
   chart: true
-  # 报告保留天数
   retention_days: 7
 
 # --- 平台列表 (你的定制) ---
@@ -63,20 +48,14 @@ platforms:
 
 # --- 通知设置 (你的定制) ---
 notify:
-  # 关闭钉钉
   dingtalk:
     enabled: false
-  # 关闭企业微信
   wechat_web:
     enabled: false
-  # 关闭 PushPlus
   pushplus:
     enabled: false
-  # 关闭 Telegram
   telegram:
     enabled: false
-  
-  # --- 只开启飞书 ---
   feishu:
     enabled: true
     webhooks:
@@ -172,19 +151,13 @@ database:
 
 # --- AI 对话设置 (使用默认) ---
 ai:
-  # AI 摘要
   summary:
     enabled: false
-    # AI 摘要的提示词
     prompt: "请你用中文总结以下热点内容，要求简明扼要，点出核心事实：\n"
-  # AI 对话分析
   chat:
     enabled: false
-    # AI 对话分析的提示词
     prompt: "你是一个热点分析专家，请你基于以上内容，用中文分析事件的起因、经过、结果，以及各方观点：\n"
-  # AI 平台
-  platform: "openai" # or "gemini" or "qwen"
-  # AI 平台设置
+  platform: "openai"
   openai:
     api_key: '${{ secrets.OPENAI_API_KEY }}'
     base_url: 'https://api.openai.com/v1'
